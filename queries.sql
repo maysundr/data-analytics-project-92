@@ -102,5 +102,5 @@ where price = 0
 order by c.customer_id
 )
 
-select * from first_sale
+select customer, sale_date, seller from first_sale
 where rn = 1;
