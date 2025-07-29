@@ -64,10 +64,10 @@ order by num_day, seller;
 select 
 	case
 		when c.age >= 16 and c.age <= 25 then '16-25'
-		when c.age >= 26 and c.age <= 39 then '26-39'
-		when c.age >= 40 then '40+'
+		when c.age > 25 and c.age <= 40 then '26-40'
+		when c.age > 40 then '40+'
 	end as age_category,
-	COUNT(c.customer_id)
+	COUNT(c.customer_id) as age_count
 from customers c
 group by age_category
 order by age_category;
