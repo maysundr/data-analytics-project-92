@@ -44,7 +44,7 @@ select concat(e.first_name, ' ',e.last_name) as seller,
 EXTRACT(DOW FROM s.sale_date) as num_day,
 TO_CHAR(sale_date + 1, 'day') as day_of_week,
 s.sale_date,
-floor(sum(p.price * s.quantity)) as income
+sum(p.price * s.quantity) as income
 from sales s
 inner join employees e
 on s.sales_person_id = e.employee_id
@@ -54,7 +54,7 @@ group by day_of_week, s.sale_date, seller
 order by seller, num_day
 )
 
-select seller, day_of_week, SUM(income) as income from seller_day_of_week
+select seller, day_of_week, floor(sum(income)) as income from seller_day_of_week
 group by seller, day_of_week, num_day
 order by num_day, seller;
 
