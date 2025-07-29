@@ -73,14 +73,25 @@ group by age_category
 order by age_category;
 
 #отчет о количестве уникальных покупателей и выручке, которую они принесли
+with p_s as (
+select
+	s.sale_date,
+	s.customer_id,
+	p.price,
+	s.quantity
+from sales s
+inner join products p
+on s.product_id = p.product_id
+)
+
 select
 	case
-		when extract(month from sale_date) < 10 then concat(extract(year from sale_date), '-0', extract(month from sale_date))
-		when extract(month from sale_date) >= 10 then concat(extract(year from sale_date), '-', extract(month from sale_date))
+		when extract(month from p_s.sale_date) < 10 then concat(extract(year from p_s.sale_date), '-0', extract(month from p_s.sale_date))
+		when extract(month from p_s.sale_date) >= 10 then concat(extract(year from p_s.sale_date), '-', extract(month from p_s.sale_date))
 	end as selling_month,
-	count(distinct customer_id),
-	sum(product_id * quantity) as income
-from sales s
+	count(distinct p_s.customer_id) as total_customers,
+	floor(sum(p_s.price * p_s.quantity)) as income
+from p_s
 group by selling_month
 order by selling_month;
 
