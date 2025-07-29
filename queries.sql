@@ -8,7 +8,7 @@ select count(distinct customer_id) as customers_count from customers;
 
 #отчет с продавцами у которых наибольшая выручка
 select concat(e.first_name, ' ',e.last_name) as seller,
-COUNT(s.product_id) as operation,
+COUNT(s.product_id) as operations,
 floor(sum(p.price * s.quantity)) as income
 from sales s
 inner join employees e
@@ -54,7 +54,7 @@ group by day_of_week, s.sale_date, seller
 order by seller, num_day
 )
 
-select seller, day_of_week, SUM(income) from seller_day_of_week
+select seller, day_of_week, SUM(income) as income from seller_day_of_week
 group by seller, day_of_week, num_day
 order by num_day, seller;
 
