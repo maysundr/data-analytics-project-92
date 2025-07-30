@@ -139,7 +139,8 @@ with first_sale as (
         concat(e.first_name, ' ', e.last_name) as seller,
         concat(c.first_name, ' ', c.last_name) as customer,
         row_number()
-            over (partition by s.customer_id order by s.sale_date)
+            over (partition by s.customer_id
+            	order by s.sale_date)
             as rn
     from sales as s
     inner join employees as e
