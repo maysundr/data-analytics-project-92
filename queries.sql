@@ -41,21 +41,21 @@ order by average_income;
 #отчет с данными по выручке по каждому продавцу и дню недели
 with seller_day_of_week as (
 select concat(e.first_name, ' ',e.last_name) as seller,
-EXTRACT(DOW FROM s.sale_date) as num_day,
-TO_CHAR(sale_date + 1, 'day') as day_of_week,
+TO_CHAR(s.sale_date, 'id') as num_day,
+TO_CHAR(s.sale_date, 'day') as day_of_week,
 s.sale_date,
 sum(p.price * s.quantity) as income
 from sales s
-inner join employees e
+join employees e
 on s.sales_person_id = e.employee_id
-inner join products p 
+join products p 
 on s.product_id = p.product_id
-group by day_of_week, s.sale_date, seller
+group by seller, day_of_week, s.sale_date
 order by seller, num_day
 )
 
 select seller, day_of_week, floor(sum(income)) as income from seller_day_of_week
-group by seller, day_of_week, num_day
+group by day_of_week, seller, num_day
 order by num_day, seller;
 
 #Step_6
