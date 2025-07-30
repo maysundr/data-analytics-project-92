@@ -132,7 +132,7 @@ from p_s
 group by selling_month
 order by selling_month;
 
---отчет о покупателях, первая покупка которых была в ходе проведения акций (акционные товары отпускали со стоимостью равной 0)
+--отчет о покупателях, первая покупка которых была в ходе проведения акции
 with first_sale as (
     select
         s.sale_date,
@@ -148,7 +148,7 @@ with first_sale as (
         on s.product_id = p.product_id
     inner join customers as c
         on s.customer_id = c.customer_id
-    where price = 0
+    where p.price = 0
     order by c.customer_id
 )
 
