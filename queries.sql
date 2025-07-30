@@ -1,12 +1,12 @@
-#Step_4
+--Step_4
 
-#считает общее количество покупателей из таблицы customers
+--считает общее количество покупателей из таблицы customers
 select count(distinct customer_id) as customers_count from customers;
 
 
-#Step_5
+--Step_5
 
-#отчет с продавцами у которых наибольшая выручка
+--отчет с продавцами у которых наибольшая выручка
 select concat(e.first_name, ' ',e.last_name) as seller,
 COUNT(s.product_id) as operations,
 floor(sum(p.price * s.quantity)) as income
@@ -19,7 +19,7 @@ group by s.sales_person_id, seller
 order by income desc
 limit 10;
 
-#отчет с продавцами, чья выручка ниже средней выручки всех продавцов
+--отчет с продавцами, чья выручка ниже средней выручки всех продавцов
 with seller_avg as (
 select concat(e.first_name, ' ',e.last_name) as seller,
 floor(AVG(p.price * s.quantity)) as average_income
@@ -38,7 +38,7 @@ inner join products p
 on s.product_id = p.product_id)
 order by average_income;
 
-#отчет с данными по выручке по каждому продавцу и дню недели
+--отчет с данными по выручке по каждому продавцу и дню недели
 with seller_day_of_week as (
 select concat(e.first_name, ' ',e.last_name) as seller,
 TO_CHAR(s.sale_date, 'id') as num_day,
@@ -58,9 +58,9 @@ select seller, day_of_week, floor(sum(income)) as income from seller_day_of_week
 group by day_of_week, seller, num_day
 order by num_day, seller;
 
-#Step_6
+--Step_6
 
-#отчет о количестве покупателей в разных возрастных группах: 16-25, 26-40 и 40+
+--отчет о количестве покупателей в разных возрастных группах: 16-25, 26-40 и 40+
 select 
 	case
 		when c.age >= 16 and c.age <= 25 then '16-25'
@@ -72,7 +72,7 @@ from customers c
 group by age_category
 order by age_category;
 
-#отчет о количестве уникальных покупателей и выручке, которую они принесли
+--отчет о количестве уникальных покупателей и выручке, которую они принесли
 with p_s as (
 select
 	s.sale_date,
@@ -95,7 +95,7 @@ from p_s
 group by selling_month
 order by selling_month;
 
-#отчет о покупателях, первая покупка которых была в ходе проведения акций (акционные товары отпускали со стоимостью равной 0)
+--отчет о покупателях, первая покупка которых была в ходе проведения акций (акционные товары отпускали со стоимостью равной 0)
 with first_sale as (
 select 
 	concat(e.first_name, ' ',e.last_name) as seller,
