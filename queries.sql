@@ -1,7 +1,8 @@
 --Step_4
 
 --считает общее количество покупателей из таблицы customers
-select count(distinct customer_id) as customers_count from customers;
+select count(distinct customer_id) as customers_count
+from customers;
 
 
 --Step_5
@@ -157,4 +158,3 @@ select
     seller
 from first_sale
 where rn = 1;
-
